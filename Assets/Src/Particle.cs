@@ -4,7 +4,6 @@ using MyMath;
 
 public class Particle : MonoBehaviour
 {
-    private Vector3 position;
     private Vector3 velocity;
     private Vector3 acceleration = new Vector3(0, -9.8f, 0);
 
@@ -14,6 +13,8 @@ public class Particle : MonoBehaviour
 
     void Awake()
     {
+        mesh = new Mesh();
+        GetComponent<MeshFilter>().mesh = mesh;
     }
 
     void Start()
@@ -22,14 +23,17 @@ public class Particle : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log($"elapsed: {Time.fixedDeltaTime}");
-        
-        Grapher.Log(-position.y, "pos");
+        /*Debug.Log($"elapsed: {Time.fixedDeltaTime}");
+
+        Debug.Log($"vel: {-velocity}");
+        Debug.Log($"pos: {-transform.position}");*/
+
+        Grapher.Log(-transform.position.y, "pos");
         Grapher.Log(-velocity.y, "vel");
 
         // Change in position calculated through trapezoid square (mathematically is equivalent the previous approach)
-        position += (velocity + (velocity + acceleration * Time.fixedDeltaTime)) * Time.fixedDeltaTime / 2;
-        
+        transform.position += (velocity + (velocity + acceleration * Time.fixedDeltaTime)) * Time.fixedDeltaTime / 2;
+
         // Change in position calculated through average velocity
         /*Vector3 instantVel = velocity + acceleration * Time.fixedDeltaTime;
         Vector3 avgVel = (velocity + instantVel) / 2;
@@ -46,15 +50,16 @@ public class Particle : MonoBehaviour
 
     void Update()
     {
-        mesh = new Mesh();
+        if (transform.position.y < -10)
+            Destroy(gameObject);
 
         mesh.Clear();
 
         Vector3[] vertices = new Vector3[4];
-        vertices[0] = position - new Vector3(-0.1f, -0.1f);
-        vertices[1] = position - new Vector3(-0.1f, 0.1f);
-        vertices[2] = position - new Vector3(0.1f, 0.1f);
-        vertices[3] = position - new Vector3(0.1f, -0.1f);
+        vertices[0] = new Vector3(-0.1f, -0.1f);
+        vertices[1] = new Vector3(-0.1f, 0.1f);
+        vertices[2] = new Vector3(0.1f, 0.1f);
+        vertices[3] = new Vector3(0.1f, -0.1f);
 
         mesh.vertices = vertices;
         mesh.triangles = new[]
@@ -69,8 +74,5 @@ public class Particle : MonoBehaviour
             -Vector3.forward,
             -Vector3.forward
         };
-
-        GetComponent<MeshRenderer>().material.color = Color.white;
-        GetComponent<MeshFilter>().mesh = mesh;
     }
 }
