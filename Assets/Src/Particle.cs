@@ -1,15 +1,18 @@
 using System;
 using UnityEngine;
-using MyMath;
 
 public class Particle : MonoBehaviour
 {
     private Vector3 velocity;
-    private Vector3 acceleration = new Vector3(0, -9.8f, 0);
+    private Vector3 gravityAcceleration = new Vector3(0, -9.8f, 0);
 
     private float mass = 1;
 
     private Mesh mesh;
+
+    private Vector3 appliedForce;
+
+    private ulong frameCount;
 
     void Awake()
     {
@@ -23,16 +26,23 @@ public class Particle : MonoBehaviour
 
     private void FixedUpdate()
     {
+        frameCount++;
+        if (frameCount > 1)
+            appliedForce = Vector3.zero;
         /*Debug.Log($"elapsed: {Time.fixedDeltaTime}");
 
         Debug.Log($"vel: {-velocity}");
         Debug.Log($"pos: {-transform.position}");*/
 
-        Grapher.Log(-transform.position.y, "pos");
-        Grapher.Log(-velocity.y, "vel");
+        #if UNITY_EDITOR_WIN
+        Grapher.Log(transform.position, "pos");
+        Grapher.Log(velocity, "vel");
+        #endif
 
-        // Change in position calculated through trapezoid square (mathematically is equivalent the previous approach)
-        transform.position += (velocity + (velocity + acceleration * Time.fixedDeltaTime)) * Time.fixedDeltaTime / 2;
+        Vector3 resultantAcceleration = (appliedForce / mass) + gravityAcceleration;
+
+        // Change in position calculated through trapezoid square (is mathematically equivalent the previous approach)
+        transform.position += (velocity + (velocity + resultantAcceleration * Time.fixedDeltaTime)) * Time.fixedDeltaTime / 2;
 
         // Change in position calculated through average velocity
         /*Vector3 instantVel = velocity + acceleration * Time.fixedDeltaTime;
@@ -45,7 +55,9 @@ public class Particle : MonoBehaviour
         Vector3 restSquare = velocity * Time.fixedDeltaTime;
         position += capSquare + restSquare;*/
 
-        velocity += acceleration * Time.fixedDeltaTime;
+        velocity += resultantAcceleration * Time.fixedDeltaTime;
+        
+        Debug.Log($"frames: {frameCount}\nvel: {velocity.ToString("F5")}\npos: {transform.position.ToString("F5")}");
     }
 
     void Update()
@@ -74,5 +86,10 @@ public class Particle : MonoBehaviour
             -Vector3.forward,
             -Vector3.forward
         };
+    }
+
+    public void ApplyForce(Vector3 force)
+    {
+        appliedForce = force;
     }
 }
