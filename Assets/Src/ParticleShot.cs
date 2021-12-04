@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Game : MonoBehaviour
+public class ParticleShot : MonoBehaviour
 {
     [SerializeField]
     private GameObject particlePrefab;
