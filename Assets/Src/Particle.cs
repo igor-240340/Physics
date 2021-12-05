@@ -24,7 +24,7 @@ public class Particle : MonoBehaviour
     {
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         frameCount++;
         if (frameCount > 1)
@@ -91,5 +91,11 @@ public class Particle : MonoBehaviour
     public void ApplyForce(Vector3 force)
     {
         appliedForce = force;
+    }
+
+    public Vector3 Velocity
+    {
+        get => velocity;
+        set => velocity = value;
     }
 }
