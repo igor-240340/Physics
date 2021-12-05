@@ -34,12 +34,10 @@ public class ParticleShot : MonoBehaviour
 
         if (context.action.phase == InputActionPhase.Canceled)
         {
-            Vector3 appliedForce = (firstMouseWorldPos - GetMouseWorldPos()) * 100;
-            Debug.Log($"Applied force: {appliedForce.ToString("F5")}");
-            Debug.Log($"Start pos: {firstMouseWorldPos.ToString("F5")}");
-            
+            Vector3 force = (firstMouseWorldPos - GetMouseWorldPos()) * 100;
+
             particle = Instantiate(particlePrefab, firstMouseWorldPos, Quaternion.identity);
-            particle.GetComponent<Particle>().ApplyForce(appliedForce);
+            particle.GetComponent<Particle>().ApplyForce(force);
         }
     }
 

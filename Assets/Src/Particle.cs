@@ -10,7 +10,7 @@ public class Particle : MonoBehaviour
 
     private Mesh mesh;
 
-    private Vector3 appliedForce;
+    private Vector3 resultantForce;
 
     private ulong frameCount;
 
@@ -26,20 +26,12 @@ public class Particle : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
-        frameCount++;
-        if (frameCount > 1)
-            appliedForce = Vector3.zero;
-        /*Debug.Log($"elapsed: {Time.fixedDeltaTime}");
-
-        Debug.Log($"vel: {-velocity}");
-        Debug.Log($"pos: {-transform.position}");*/
-
         #if UNITY_EDITOR_WIN
         Grapher.Log(transform.position, "pos");
         Grapher.Log(velocity, "vel");
         #endif
 
-        Vector3 resultantAcceleration = (appliedForce / mass) + gravityAcceleration;
+        Vector3 resultantAcceleration = (resultantForce / mass) + gravityAcceleration;
 
         // Change in position calculated through trapezoid square (is mathematically equivalent the previous approach)
         transform.position += (velocity + (velocity + resultantAcceleration * Time.fixedDeltaTime)) * Time.fixedDeltaTime / 2;
@@ -56,6 +48,8 @@ public class Particle : MonoBehaviour
         position += capSquare + restSquare;*/
 
         velocity += resultantAcceleration * Time.fixedDeltaTime;
+        
+        resultantForce = Vector3.zero;
         
         Debug.Log($"frames: {frameCount}\nvel: {velocity.ToString("F5")}\npos: {transform.position.ToString("F5")}");
     }
@@ -90,7 +84,7 @@ public class Particle : MonoBehaviour
 
     public void ApplyForce(Vector3 force)
     {
-        appliedForce = force;
+        resultantForce += force;
     }
 
     public Vector3 Velocity
