@@ -1,62 +1,65 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Particle : MonoBehaviour
 {
-    private Vector3 velocity;
-    private Vector3 gravityAcceleration = new Vector3(0, -9.8f, 0);
+    private List<ForceGenerator> forces = new List<ForceGenerator>();
 
-    private float mass = 1;
+    private Vector3 velocity;
+    private float mass;
+    private Vector3 netForce;
 
     private Mesh mesh;
-
-    private Vector3 resultantForce;
-
-    private ulong frameCount;
+    private int frameCount;
 
     void Awake()
     {
+        // Time.timeScale = 0.1f;
+        // Time.fixedDeltaTime = 0.0002f;
+
         mesh = new Mesh();
         GetComponent<MeshFilter>().mesh = mesh;
     }
 
-    void Start()
-    {
-    }
-
     protected virtual void FixedUpdate()
     {
-        #if UNITY_EDITOR_WIN
+        frameCount++;
+        
         Grapher.Log(transform.position, "pos");
         Grapher.Log(velocity, "vel");
-        #endif
 
-        Vector3 resultantAcceleration = (resultantForce / mass) + gravityAcceleration;
+        forces.ForEach(force => force.GetImpact(this));
+        // Debug.Log($"net force: {netForce.ToString("F5")}");
 
-        // Change in position calculated through trapezoid square (is mathematically equivalent the previous approach)
-        transform.position += (velocity + (velocity + resultantAcceleration * Time.fixedDeltaTime)) * Time.fixedDeltaTime / 2;
+        Vector3 netAccel = netForce / mass;
+        // Debug.Log($"net accel: {netAccel.ToString("F5")}");
 
         // Change in position calculated through average velocity
         /*Vector3 instantVel = velocity + acceleration * Time.fixedDeltaTime;
         Vector3 avgVel = (velocity + instantVel) / 2;
         position += avgVel * Time.fixedDeltaTime;*/
 
+        // Change in position calculated through trapezoid square (is mathematically equivalent the previous approach)
+        transform.position += (velocity + (velocity + netAccel * Time.fixedDeltaTime)) * Time.fixedDeltaTime / 2;
 
         // Change in position calculated geometrically (see my notes)
         /*Vector3 capSquare = acceleration * Time.fixedDeltaTime * Time.fixedDeltaTime / 2;
         Vector3 restSquare = velocity * Time.fixedDeltaTime;
         position += capSquare + restSquare;*/
 
-        velocity += resultantAcceleration * Time.fixedDeltaTime;
-        
-        resultantForce = Vector3.zero;
-        
-        Debug.Log($"frames: {frameCount}\nvel: {velocity.ToString("F5")}\npos: {transform.position.ToString("F5")}");
+        // Debug.Log($"prev vel: {velocity.ToString("F5")}");
+
+        velocity += netAccel * Time.fixedDeltaTime;
+        // Debug.Log($"new vel: {velocity.ToString("F5")}");
+
+        netForce = Vector3.zero;
+        Debug.Log($"frames (sec): {frameCount* Time.fixedDeltaTime}\nvel: {velocity.ToString("F5")}\npos: {transform.position.ToString("F5")}");
     }
 
     void Update()
     {
-        if (transform.position.y < -10)
+        if (transform.position.y < -1000)
             Destroy(gameObject);
 
         mesh.Clear();
@@ -84,12 +87,23 @@ public class Particle : MonoBehaviour
 
     public void ApplyForce(Vector3 force)
     {
-        resultantForce += force;
+        netForce += force;
+    }
+
+    public void AddForceGenerator(ForceGenerator forceGenerator)
+    {
+        forces.Add(forceGenerator);
     }
 
     public Vector3 Velocity
     {
         get => velocity;
         set => velocity = value;
+    }
+
+    public float Mass
+    {
+        get => mass;
+        set => mass = value;
     }
 }

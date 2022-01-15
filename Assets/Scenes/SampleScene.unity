@@ -216,8 +216,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1353106913}
   - component: {fileID: 1353106914}
-  - component: {fileID: 1353106912}
+  - component: {fileID: 1353106916}
   - component: {fileID: 1353106915}
+  - component: {fileID: 1353106912}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -287,8 +288,8 @@ MonoBehaviour:
     m_ActionName: Player/Look[/Mouse/delta]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1353106912}
-        m_TargetAssemblyTypeName: ParticleShot, Assembly-CSharp
+      - m_Target: {fileID: 1353106916}
+        m_TargetAssemblyTypeName: ParticleInFluid, Assembly-CSharp
         m_MethodName: Fire
         m_Mode: 0
         m_Arguments:
@@ -371,3 +372,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePrefab: {fileID: 3121193175869255330, guid: 5746e96909ac29148acec618db57006e, type: 3}
+--- !u!114 &1353106916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1353106911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4204a5498c687f946927e6115399cb46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particlePrefab: {fileID: 26461358894097234, guid: abbe867cb3fb9974c842033b8cbc8cf5, type: 3}
