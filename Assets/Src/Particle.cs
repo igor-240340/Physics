@@ -16,7 +16,7 @@ public class Particle : MonoBehaviour
     void Awake()
     {
         // Time.timeScale = 0.1f;
-        // Time.fixedDeltaTime = 0.0002f;
+        Time.fixedDeltaTime = 0.02f;
 
         mesh = new Mesh();
         GetComponent<MeshFilter>().mesh = mesh;
@@ -32,7 +32,7 @@ public class Particle : MonoBehaviour
         forces.ForEach(force => force.GetImpact(this));
         // Debug.Log($"net force: {netForce.ToString("F5")}");
 
-        Vector3 netAccel = netForce / mass;
+        Vector3 accel = netForce / mass;
         // Debug.Log($"net accel: {netAccel.ToString("F5")}");
 
         // Change in position calculated through average velocity
@@ -41,8 +41,9 @@ public class Particle : MonoBehaviour
         position += avgVel * Time.fixedDeltaTime;*/
 
         // Change in position calculated through trapezoid square (is mathematically equivalent the previous approach)
-        transform.position += (velocity + (velocity + netAccel * Time.fixedDeltaTime)) * Time.fixedDeltaTime / 2;
-
+        Vector3 oldPos = transform.position; // TODO just for debug
+        transform.position += (velocity + (velocity + accel * Time.fixedDeltaTime)) * Time.fixedDeltaTime / 2;
+        
         // Change in position calculated geometrically (see my notes)
         /*Vector3 capSquare = acceleration * Time.fixedDeltaTime * Time.fixedDeltaTime / 2;
         Vector3 restSquare = velocity * Time.fixedDeltaTime;
@@ -50,11 +51,19 @@ public class Particle : MonoBehaviour
 
         // Debug.Log($"prev vel: {velocity.ToString("F5")}");
 
-        velocity += netAccel * Time.fixedDeltaTime;
+        Vector3 oldVel = velocity; // TODO just for debug
+        velocity += accel * Time.fixedDeltaTime * 0.5f;
         // Debug.Log($"new vel: {velocity.ToString("F5")}");
+        
+        Debug.Log($"elapsed_time: {frameCount * Time.fixedDeltaTime}\n" +
+                  $"old_vel: {oldVel.ToString("F5")}\n" +
+                  $"old_pos: {oldPos.ToString("F5")}\n" +
+                  $"net_force: {netForce.ToString("F5")}\n" +
+                  $"accel: {accel.ToString("F5")}\n" +
+                  $"new_vel: {velocity.ToString("F5")}\n" +
+                  $"new_pos: {transform.position.ToString("F5")}");
 
         netForce = Vector3.zero;
-        Debug.Log($"frames (sec): {frameCount* Time.fixedDeltaTime}\nvel: {velocity.ToString("F5")}\npos: {transform.position.ToString("F5")}");
     }
 
     void Update()
