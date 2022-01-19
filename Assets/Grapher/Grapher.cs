@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
 using UnityEditor;
-
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System;
-
 using NWH;
 
 [ExecuteInEditMode]
@@ -22,7 +20,8 @@ public partial class Grapher : EditorWindow
 
     private enum MouseState
     {
-        Up, Down
+        Up,
+        Down
     }
 
     private Vector3 mousePosition;
@@ -36,7 +35,7 @@ public partial class Grapher : EditorWindow
     [MenuItem("Window/Grapher %g")]
     public static void Init()
     {
-        grapherWindow = (Grapher)GetWindow(typeof(Grapher));
+        grapherWindow = (Grapher) GetWindow(typeof(Grapher));
         grapherWindow.Show();
     }
 
@@ -47,7 +46,8 @@ public partial class Grapher : EditorWindow
         // Check for first run
         if (!EditorPrefs.HasKey("GrapherFirstRun"))
         {
-            Debug.Log("Read IMPORTANT_README!.txt in the Grapher folder. As the name says, it is important :). This message is shown only once.");
+            Debug.Log(
+                "Read IMPORTANT_README!.txt in the Grapher folder. As the name says, it is important :). This message is shown only once.");
             EditorPrefs.SetBool("GrapherFirstRun", false);
         }
 
@@ -146,7 +146,7 @@ public partial class Grapher : EditorWindow
 
         DrawStatic();
         // Avoid double calculations during layout and repaint
-        if(Event.current.type == EventType.Repaint)
+        if (Event.current.type == EventType.Repaint)
             DrawGraph();
         DrawRules();
         DrawBottomControls();
@@ -165,11 +165,14 @@ public partial class Grapher : EditorWindow
         {
             foreach (Channel ch in channels)
             {
-                if (ch.LogToConsole && ch.newestSample != null) consoleString += " " + ch.name + " = " + FloatToCompact(ch.newestSample.d) + "\t | ";
+                if (ch.LogToConsole && ch.newestSample != null)
+                    consoleString += " " + ch.name + " = " + FloatToCompact(ch.newestSample.d) + "\t | ";
             }
+
             consoleString += "@ " + FloatToCompact(TimeKeeper.Time) + "s";
             Debug.Log(consoleString);
         }
+
         consoleString = "";
     }
 
@@ -220,7 +223,9 @@ public partial class Grapher : EditorWindow
             replayFiles.Clear();
             TimeKeeper.Reset();
         }
-        catch { }
+        catch
+        {
+        }
     }
 
     /// <summary>
@@ -243,16 +248,16 @@ public partial class Grapher : EditorWindow
         // Check for vectors
         Type type = obj.GetType();
 
-        if(type == typeof(Vector2))
+        if (type == typeof(Vector2))
         {
-            Vector2 v = (Vector2)obj;
+            Vector2 v = (Vector2) obj;
             Log(v.x, name + " X", color, time);
             Log(v.y, name + " Y", color, time);
             return;
         }
         else if (type == typeof(Vector3))
         {
-            Vector3 v = (Vector3)obj;
+            Vector3 v = (Vector3) obj;
             Log(v.x, name + " X", color, time);
             Log(v.y, name + " Y", color, time);
             Log(v.z, name + " Z", color, time);
@@ -260,7 +265,7 @@ public partial class Grapher : EditorWindow
         }
         else if (type == typeof(Vector4))
         {
-            Vector3 v = (Vector3)obj;
+            Vector3 v = (Vector3) obj;
             Log(v.x, name + " X", color, time);
             Log(v.y, name + " Y", color, time);
             Log(v.z, name + " Z", color, time);
@@ -268,13 +273,14 @@ public partial class Grapher : EditorWindow
         }
         else if (typeof(IEnumerable).IsAssignableFrom(type))
         {
-            IEnumerable enumerable = (IEnumerable)obj;
+            IEnumerable enumerable = (IEnumerable) obj;
             int n = 0;
-            foreach(object item in enumerable)
+            foreach (object item in enumerable)
             {
                 Log(item, name + "[" + n + "]", color, time);
                 n++;
             }
+
             return;
         }
 
@@ -308,6 +314,7 @@ public partial class Grapher : EditorWindow
                     ch.newestObj = obj;
                     ch.Enqueue(d, time);
                 }
+
                 ch.lastFrame = frameCounter;
             }
         }
@@ -374,12 +381,14 @@ public partial class Grapher : EditorWindow
                 }
                 else
                 {
-                    filename = "S" + GetRecordingSessionID() + "_" + FileHandler.CleanFilename(ch.name) + "_" + GetFilenameTimestamp() + ".csv";
+                    filename = "S" + GetRecordingSessionID() + "_" + FileHandler.CleanFilename(ch.name) + "_" +
+                               GetFilenameTimestamp() + ".csv";
                 }
 
                 // Write header
                 string header = "";
-                header += ch.name + "," + ch.verticalResolution + "," + ch.color.r + "," + ch.color.g + "," + ch.color.b + Environment.NewLine;
+                header += ch.name + "," + ch.verticalResolution + "," + ch.color.r + "," + ch.color.g + "," +
+                          ch.color.b + Environment.NewLine;
                 FileHandler.WriteStringToCSV(header, filename);
 
                 // Append samples
@@ -407,21 +416,21 @@ public partial class Grapher : EditorWindow
 
         if (type == typeof(float))
         {
-            x = (float)d;
+            x = (float) d;
         }
         else if (type == typeof(int))
         {
-            x = (float)(int)d;
+            x = (float) (int) d;
         }
         else if (type.IsEnum)
         {
-            x = (float)(int)d;
+            x = (float) (int) d;
         }
         else
         {
             try
             {
-                x = (float)d;
+                x = (float) d;
             }
             catch
             {

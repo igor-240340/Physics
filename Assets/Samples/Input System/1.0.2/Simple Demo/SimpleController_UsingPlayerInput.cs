@@ -33,12 +33,13 @@ public class SimpleController_UsingPlayerInput : MonoBehaviour
             case InputActionPhase.Performed:
                 if (context.interaction is SlowTapInteraction)
                 {
-                    StartCoroutine(BurstFire((int)(context.duration * burstSpeed)));
+                    StartCoroutine(BurstFire((int) (context.duration * burstSpeed)));
                 }
                 else
                 {
                     Fire();
                 }
+
                 m_Charging = false;
                 break;
 

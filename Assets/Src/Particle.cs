@@ -6,6 +6,8 @@ public class Particle : MonoBehaviour
 {
     private List<ForceGenerator> forces = new List<ForceGenerator>();
 
+    private float size; // Cube size
+
     private Vector3 velocity;
     private float mass;
     private Vector3 netForce;
@@ -25,7 +27,7 @@ public class Particle : MonoBehaviour
     protected virtual void FixedUpdate()
     {
         frameCount++;
-        
+
         Grapher.Log(transform.position, "pos");
         Grapher.Log(velocity, "vel");
 
@@ -43,7 +45,7 @@ public class Particle : MonoBehaviour
         // Change in position calculated through trapezoid square (is mathematically equivalent the previous approach)
         Vector3 oldPos = transform.position; // TODO just for debug
         transform.position += (velocity + (velocity + accel * Time.fixedDeltaTime)) * Time.fixedDeltaTime / 2;
-        
+
         // Change in position calculated geometrically (see my notes)
         /*Vector3 capSquare = acceleration * Time.fixedDeltaTime * Time.fixedDeltaTime / 2;
         Vector3 restSquare = velocity * Time.fixedDeltaTime;
@@ -54,14 +56,14 @@ public class Particle : MonoBehaviour
         Vector3 oldVel = velocity; // TODO just for debug
         velocity += accel * Time.fixedDeltaTime * 0.5f;
         // Debug.Log($"new vel: {velocity.ToString("F5")}");
-        
-        Debug.Log($"elapsed_time: {frameCount * Time.fixedDeltaTime}\n" +
+
+        /*Debug.Log($"elapsed_time: {frameCount * Time.fixedDeltaTime}\n" +
                   $"old_vel: {oldVel.ToString("F5")}\n" +
                   $"old_pos: {oldPos.ToString("F5")}\n" +
                   $"net_force: {netForce.ToString("F5")}\n" +
                   $"accel: {accel.ToString("F5")}\n" +
                   $"new_vel: {velocity.ToString("F5")}\n" +
-                  $"new_pos: {transform.position.ToString("F5")}");
+                  $"new_pos: {transform.position.ToString("F5")}");*/
 
         netForce = Vector3.zero;
     }
@@ -74,10 +76,10 @@ public class Particle : MonoBehaviour
         mesh.Clear();
 
         Vector3[] vertices = new Vector3[4];
-        vertices[0] = new Vector3(-0.1f, -0.1f);
-        vertices[1] = new Vector3(-0.1f, 0.1f);
-        vertices[2] = new Vector3(0.1f, 0.1f);
-        vertices[3] = new Vector3(0.1f, -0.1f);
+        vertices[0] = new Vector3(-size / 2, -size / 2f);
+        vertices[1] = new Vector3(-size / 2, size / 2f);
+        vertices[2] = new Vector3(size / 2f, size / 2f);
+        vertices[3] = new Vector3(size / 2f, -size / 2f);
 
         mesh.vertices = vertices;
         mesh.triangles = new[]
@@ -114,5 +116,11 @@ public class Particle : MonoBehaviour
     {
         get => mass;
         set => mass = value;
+    }
+
+    public float Size
+    {
+        get => size;
+        set => size = value;
     }
 }

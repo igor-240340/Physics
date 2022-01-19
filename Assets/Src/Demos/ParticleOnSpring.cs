@@ -5,7 +5,7 @@ public class ParticleOnSpring : MonoBehaviour
 {
     [SerializeField]
     private GameObject particlePrefab;
-    
+
     private Vector3 firstMouseWorldPos;
 
     private ForceGenerator spring;

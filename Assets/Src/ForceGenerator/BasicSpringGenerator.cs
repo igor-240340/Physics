@@ -22,9 +22,9 @@ public class BasicSpringGenerator : ForceGenerator
 
         Debug.Log($"Look: {attachPoint + restSpring + compression}\n" +
                   $"full: {spring}");
-        
+
         Debug.DrawLine(attachPoint, attachPoint + restSpring, Color.white);
-        
+
         Debug.Log($"compression: {compression.ToString("F5")}");
         Debug.DrawLine(attachPoint + restSpring, attachPoint + restSpring + compression, Color.magenta);
 

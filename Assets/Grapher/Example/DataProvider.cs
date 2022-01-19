@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class DataProvider : MonoBehaviour
 {
-
     // Ignore this line.
     public float t = 0;
 
@@ -64,12 +63,14 @@ public class DataProvider : MonoBehaviour
         //Grapher.Log(arrList, "ArrayList", Color.white);
 
         // ********** Enum **********
-        TestEnum tEnum = (int)t % 2 == 0 ? TestEnum.bird : TestEnum.alien;
+        TestEnum tEnum = (int) t % 2 == 0 ? TestEnum.bird : TestEnum.alien;
         //Grapher.Log(tEnum, "Enum", Color.white);
     }
 
     public enum TestEnum
     {
-        bird, horse, alien
+        bird,
+        horse,
+        alien
     }
 }

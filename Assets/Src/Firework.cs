@@ -9,7 +9,7 @@ public class Firework : MonoBehaviour
 {
     [SerializeField]
     private GameObject particlePrefab;
-    
+
     private Vector3 gravityAcceleration = new Vector3(0, -9.8f, 0);
     private List<GameObject> particles = new List<GameObject>();
     private List<GameObject> subParticles = new List<GameObject>();
@@ -22,12 +22,13 @@ public class Firework : MonoBehaviour
                 return;
 
             particle.GetComponent<FireworkParticle>().ElapsedTime += Time.fixedDeltaTime;
-            if (particle.GetComponent<FireworkParticle>().ElapsedTime >= particle.GetComponent<FireworkParticle>().TimeToLiveSec)
+            if (particle.GetComponent<FireworkParticle>().ElapsedTime >=
+                particle.GetComponent<FireworkParticle>().TimeToLiveSec)
             {
                 GenerateSubParticles(particle.transform.position);
                 Destroy(particle);
             }
-            
+
             Integrate(particle);
         });
 
@@ -35,11 +36,12 @@ public class Firework : MonoBehaviour
         {
             if (!particle)
                 return;
-            
+
             particle.GetComponent<FireworkParticle>().ElapsedTime += Time.fixedDeltaTime;
-            if (particle.GetComponent<FireworkParticle>().ElapsedTime >= particle.GetComponent<FireworkParticle>().TimeToLiveSec)
+            if (particle.GetComponent<FireworkParticle>().ElapsedTime >=
+                particle.GetComponent<FireworkParticle>().TimeToLiveSec)
                 Destroy(particle);
-            
+
             Integrate(particle);
         });
     }

@@ -37,86 +37,44 @@ namespace NWH
 
         public static float HorizontalResolution
         {
-            get
-            {
-                return EditorPrefs.GetFloat("GrapherHorizontalResolution", 8);
-            }
-            set
-            {
-                EditorPrefs.SetFloat("GrapherHorizontalResolution", value);
-            }
+            get { return EditorPrefs.GetFloat("GrapherHorizontalResolution", 8); }
+            set { EditorPrefs.SetFloat("GrapherHorizontalResolution", value); }
         }
 
         public static int SharedVerticalResolution
         {
-            get
-            {
-                return EditorPrefs.GetInt("GrapherSharedVerticalResolution", 0);
-            }
-            set
-            {
-                EditorPrefs.SetInt("GrapherSharedVerticalResolution", value);
-            }
+            get { return EditorPrefs.GetInt("GrapherSharedVerticalResolution", 0); }
+            set { EditorPrefs.SetInt("GrapherSharedVerticalResolution", value); }
         }
 
         public static int OverwriteFiles
         {
-            get
-            {
-                return EditorPrefs.GetInt("GrapherOverwriteFiles", 0);
-            }
-            set
-            {
-                EditorPrefs.SetInt("GrapherOverwriteFiles", value);
-            }
+            get { return EditorPrefs.GetInt("GrapherOverwriteFiles", 0); }
+            set { EditorPrefs.SetInt("GrapherOverwriteFiles", value); }
         }
 
         public static int GraphLineStyle
         {
-            get
-            {
-                return EditorPrefs.GetInt("GrapherLineStyle", 0);
-            }
-            set
-            {
-                EditorPrefs.SetInt("GrapherLineStyle", value);
-            }
+            get { return EditorPrefs.GetInt("GrapherLineStyle", 0); }
+            set { EditorPrefs.SetInt("GrapherLineStyle", value); }
         }
 
         public static float DefaultVerticalResolution
         {
-            get
-            {
-                return EditorPrefs.GetFloat("GrapherDefaultVerticalResolution", 10);
-            }
-            set
-            {
-                EditorPrefs.SetFloat("GrapherDefaultVerticalResolution", value);
-            }
+            get { return EditorPrefs.GetFloat("GrapherDefaultVerticalResolution", 10); }
+            set { EditorPrefs.SetFloat("GrapherDefaultVerticalResolution", value); }
         }
 
         public static int DefaultLogToFile
         {
-            get
-            {
-                return EditorPrefs.GetInt("GrapherLogToFileDefault", 0);
-            }
-            set
-            {
-                EditorPrefs.SetInt("GrapherLogToFileDefault", value);
-            }
+            get { return EditorPrefs.GetInt("GrapherLogToFileDefault", 0); }
+            set { EditorPrefs.SetInt("GrapherLogToFileDefault", value); }
         }
 
         public static int DefaultLogToConsole
         {
-            get
-            {
-                return EditorPrefs.GetInt("GrapherLogToConsoleDefault", 0);
-            }
-            set
-            {
-                EditorPrefs.SetInt("GrapherLogToConsoleDefault", value);
-            }
+            get { return EditorPrefs.GetInt("GrapherLogToConsoleDefault", 0); }
+            set { EditorPrefs.SetInt("GrapherLogToConsoleDefault", value); }
         }
 
         public static Texture2D GetTextureFrom64(string b64)
@@ -135,14 +93,18 @@ namespace NWH
                 SNU1aBEK0Jj5BxAGWxpaCsdfLbjLSVDt6b+fXWhZCkNuoESL9fKGsLmfOH7Jv321wjdfoFiWCTnKD9ylBaURw1fV4Fd5+jfYsEU3A2z9xnRC+R4UF3rI
                 FEfj90cwCL6hzBI8D+BfuJuczBFUHDWhi8CxBJ1lhg9XsbCJsi3XWZRLgzdET/LckFd73NiNONXZYzsCblMzHBD3gE8sJePQppgp6yRC+z4WPCYb96ws
                 9taBFVQIPIYj9Dw74jpwnVyyiD9yeK6K+d6URPc1seCiJ5wc6yz713wYsOQAAAABJRU5ErkJggg==";
-        public static string logIcon64 = @"iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8 / 9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAEhQ
+
+        public static string logIcon64 =
+            @"iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8 / 9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAEhQ
                 AABIUBEapzDgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAADaSURBVDiNrZK9DkFBEIW/8ZMoVCqNRCGIaHTeQqVReQSJhlbDQ0i0HkHiBXQaxY
                 1eoZQoJUdhb7K4WOEkk83OzpyZM7MGRECNG7bAntfIAR1gJmkcOyNAzgaS8A1IA32gBxS92KkkMm+qxcgCC+AE1D3/yMwuqQCCd+iGdCDg6Dp4wiNBwczKCXFtd5aSSP
                 whfmvRrzO4k3AA5gE5eWDoO2IJG7f3KjfNzcc/4d79vxAlbaHlgs7A7hsJMWpAA8DMGsBa0iqYQNLkU1UfP2/hr2usmNkyICfnX658BVigXx2yfwAAAABJRU5ErkJggg==";
+
         public static string consoleIcon64 = @"iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAA
                 AlwSFlzAAAAeAAAAHgB6vJq9gAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAACmSURBVDiNpZNBCsJQDETffHHlTrvsFbyCC8/hNT
                 yPtEfxAFLdegNxK4ggcdNQBNua/kAgWcwwzCQyM3IqZaGBJKmQNMtRcAQqSZPVbIEHUAPJzIg0rYlOUkVJuqEjOURIvhfYAQbspygogStwApZRDxzcRMB
                 +hA4+A6toCgIuHqeZ3T1bSXNg7MDeABug+CHt1ho61C/1PZOkNbAYUfDsJfi3sr/xA0B1MttepcDyAAAAAElFTkSuQmCC";
+
         public static string showIcon64 = @"iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
                 AAAFnAAABZwBCcboxgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAHfSURBVEiJ7dW9S5dRFAfwzzVNNBEianFuKSpzqBZxaWlyaWlX
                 QmjoRaTcxYgkHIRqa4qwudYGsRDSTAr6A6KhJLDNXk7DvT/8+fxeaHEJLxx4zrnP/Z5zvvecc1NE2MvVsafo+w7+ZXW220wpHcQpnMUQzuAP3mEVa/gQET9b
@@ -152,6 +114,4 @@ namespace NWH
                 IPy44jcNPPFQQ/m5Gp5VmRdrrzuIjNyc45W8VqNin7cwuWSwWpx8AOBQxgsUV/AS9yNiM0GrHYvWuH0pJ1hNyjPonU7w24jIrZbYuw/mf+/g7/+5GhqtHt1wg
                 AAAABJRU5ErkJggg==";
     }
-
 }
-

@@ -74,7 +74,7 @@ namespace NWH
             get
             {
                 string key = "Grapher" + name + "LogToFile";
-                return EditorPrefs.HasKey(key) ? EditorPrefs.GetBool(key, true) 
+                return EditorPrefs.HasKey(key) ? EditorPrefs.GetBool(key, true)
                     : GraphSettings.DefaultLogToFile == 1 ? true : false;
             }
             set
@@ -89,7 +89,7 @@ namespace NWH
             get
             {
                 string key = "Grapher" + name + "LogToConsole";
-                return EditorPrefs.HasKey(key) ? EditorPrefs.GetBool(key, true) 
+                return EditorPrefs.HasKey(key) ? EditorPrefs.GetBool(key, true)
                     : GraphSettings.DefaultLogToConsole == 1 ? true : false;
             }
             set
@@ -115,14 +115,8 @@ namespace NWH
 
         public float TimeScale
         {
-            get
-            {
-                return timeScale;
-            }
-            set
-            {
-                timeScale = Mathf.Clamp(value, 0.5f, 3600f);
-            }
+            get { return timeScale; }
+            set { timeScale = Mathf.Clamp(value, 0.5f, 3600f); }
         }
 
         public float verticalResolution
@@ -140,8 +134,15 @@ namespace NWH
             }
         }
 
-        public float YMin { get { return yMin; } }
-        public float YMax { get { return yMax; } }
+        public float YMin
+        {
+            get { return yMin; }
+        }
+
+        public float YMax
+        {
+            get { return yMax; }
+        }
 
         public Channel(int id)
         {

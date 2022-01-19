@@ -13,21 +13,19 @@ namespace NWH
 
         public static float Time
         {
-            get
-            {
-                return time;
-            }
+            get { return time; }
         }
 
         public static void Update()
         {
             systemTime = TimeSpan.FromTicks(DateTime.Now.Ticks).TotalSeconds;
             if (prevSystemTime == 0) prevSystemTime = systemTime;
-            systemDeltaTime = (float)(systemTime - prevSystemTime);
+            systemDeltaTime = (float) (systemTime - prevSystemTime);
 
             // Check if time should run
             if ((EditorApplication.isPaused || Grapher.replayControl == Grapher.ReplayControls.Pause)
-                || (Grapher.replayControl == Grapher.ReplayControls.Stop && (!EditorApplication.isPaused && !EditorApplication.isPlaying)))
+                || (Grapher.replayControl == Grapher.ReplayControls.Stop &&
+                    (!EditorApplication.isPaused && !EditorApplication.isPlaying)))
             {
                 time = EditorPrefs.GetFloat("GrapherTime", 0);
             }
@@ -45,6 +43,5 @@ namespace NWH
             time = 0;
             EditorPrefs.SetFloat("GrapherTime", 0);
         }
-
     }
 }

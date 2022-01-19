@@ -9,7 +9,6 @@ namespace NWH
 {
     public static class FileHandler
     {
-
         public static string writePath = Application.temporaryCachePath;
         public static string delimiter = ",";
 
@@ -20,6 +19,7 @@ namespace NWH
             {
                 output += s.t + delimiter + s.d + Environment.NewLine;
             }
+
             File.AppendAllText(Path.Combine(writePath, filename), output);
         }
 
@@ -28,7 +28,7 @@ namespace NWH
             List<Sample> sampleList = new List<Sample>();
 
             string fileData = File.ReadAllText(Path.Combine(writePath, filename));
-            string[] lines = fileData.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+            string[] lines = fileData.Split(new string[] {Environment.NewLine}, StringSplitOptions.None);
 
             for (int i = 1; i < lines.Length - 1; i++)
             {
@@ -38,15 +38,18 @@ namespace NWH
                     Sample gs = new Sample(float.Parse(vs[1]), float.Parse(vs[0]));
                     sampleList.Add(gs);
                 }
-                catch { }
+                catch
+                {
+                }
             }
+
             return sampleList;
         }
 
         public static string LoadHeaderFromCSV(string filename)
         {
             string fileData = File.ReadAllText(Path.Combine(writePath, filename));
-            string[] lines = fileData.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+            string[] lines = fileData.Split(new string[] {Environment.NewLine}, StringSplitOptions.None);
 
             if (lines.Length > 0)
             {
@@ -90,7 +93,8 @@ namespace NWH
                 {
                     // Fetch all files for the recording
                     string fileData = File.ReadAllText(path);
-                    List<string> filenameList = fileData.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList();
+                    List<string> filenameList =
+                        fileData.Split(new string[] {Environment.NewLine}, StringSplitOptions.None).ToList();
 
                     foreach (string s in filenameList)
                     {
@@ -110,7 +114,8 @@ namespace NWH
 
         public static string CleanFilename(string fileName)
         {
-            return Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c.ToString(), string.Empty)).Replace(" ", "");
+            return Path.GetInvalidFileNameChars()
+                .Aggregate(fileName, (current, c) => current.Replace(c.ToString(), string.Empty)).Replace(" ", "");
         }
     }
 }

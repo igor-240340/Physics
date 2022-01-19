@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-
 using NWH;
 
 // Replay
@@ -12,15 +11,21 @@ public partial class Grapher : EditorWindow
 
     public static ReplayControls prevControl = ReplayControls.Stop;
     public static ReplayControls replayControl = ReplayControls.Stop;
+
     public enum ReplayControls
     {
-        Play, Pause, Stop, Reverse, Forward, Replay
+        Play,
+        Pause,
+        Stop,
+        Reverse,
+        Forward,
+        Replay
     }
 
     private void ReplayInit()
     {
         // No replay files, ask user to add some
-        if(replayFiles.Count == 0 && channels.Count == 0)
+        if (replayFiles.Count == 0 && channels.Count == 0)
         {
             Debug.LogWarning("No replay files selected.");
         }
@@ -34,13 +39,13 @@ public partial class Grapher : EditorWindow
                 string header = FileHandler.LoadHeaderFromCSV(replayFiles[i]);
 
                 // If replay file valid
-                if(header != null)
+                if (header != null)
                 {
                     string[] hs = header.Split(',');
-                    if(hs.Length == 5)
+                    if (hs.Length == 5)
                     {
                         Channel ch = null;
-                        string name = hs[0] +" [Re]";
+                        string name = hs[0] + " [Re]";
 
                         if ((ch = channels.Find(x => x.name == name)) == null)
                         {
@@ -78,7 +83,7 @@ public partial class Grapher : EditorWindow
         if (prevControl == ReplayControls.Stop && replayControl != ReplayControls.Stop)
         {
             TimeKeeper.Reset();
-            foreach(Channel ch in channels)
+            foreach (Channel ch in channels)
             {
                 ch.firstVisiblePointIndex = 0;
                 ch.lastVisiblePointIndex = 0;

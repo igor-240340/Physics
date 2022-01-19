@@ -8,7 +8,7 @@ namespace NWH
         [MenuItem("Window/Grapher Settings")]
         public static void Init()
         {
-            SettingsWindow window = (SettingsWindow)EditorWindow.GetWindow(typeof(SettingsWindow));
+            SettingsWindow window = (SettingsWindow) EditorWindow.GetWindow(typeof(SettingsWindow));
             window.Show();
         }
 
@@ -21,33 +21,38 @@ namespace NWH
             GUILayout.Space(3);
 
             // Time window
-            GraphSettings.HorizontalResolution = FloatField("Horizontal resolution (time)", GraphSettings.HorizontalResolution, 0.5f, 30);
+            GraphSettings.HorizontalResolution = FloatField("Horizontal resolution (time)",
+                GraphSettings.HorizontalResolution, 0.5f, 30);
 
             // Shared Y Range
-            GraphSettings.SharedVerticalResolution = (int)FloatField("Share vertical resolution", GraphSettings.SharedVerticalResolution, 0, 1);
+            GraphSettings.SharedVerticalResolution = (int) FloatField("Share vertical resolution",
+                GraphSettings.SharedVerticalResolution, 0, 1);
 
             // Line style selection
-            GraphSettings.GraphLineStyle = (int)FloatField("Line style", GraphSettings.GraphLineStyle, 0, 1);
+            GraphSettings.GraphLineStyle = (int) FloatField("Line style", GraphSettings.GraphLineStyle, 0, 1);
 
             GUILayout.Space(3);
             GUILayout.Label("Logging", EditorStyles.boldLabel);
             GUILayout.Space(3);
 
             // Overwrite existing files
-            GraphSettings.OverwriteFiles = (int)FloatField("Overwrite existing files", GraphSettings.OverwriteFiles, 0, 1);
+            GraphSettings.OverwriteFiles =
+                (int) FloatField("Overwrite existing files", GraphSettings.OverwriteFiles, 0, 1);
 
             GUILayout.Space(3);
             GUILayout.Label("Defaults", EditorStyles.boldLabel);
             GUILayout.Space(3);
 
             // Default Y Range
-            GraphSettings.DefaultVerticalResolution = FloatField("Vertical resolution", GraphSettings.DefaultVerticalResolution, 1, Mathf.Infinity);
+            GraphSettings.DefaultVerticalResolution = FloatField("Vertical resolution",
+                GraphSettings.DefaultVerticalResolution, 1, Mathf.Infinity);
 
             // Default log to file
-            GraphSettings.DefaultLogToFile = (int)FloatField("Log To File", GraphSettings.DefaultLogToFile, 0, 1);
+            GraphSettings.DefaultLogToFile = (int) FloatField("Log To File", GraphSettings.DefaultLogToFile, 0, 1);
 
             // Default log to console
-            GraphSettings.DefaultLogToConsole = (int)FloatField("Log To Console", GraphSettings.DefaultLogToConsole, 0, 1);
+            GraphSettings.DefaultLogToConsole =
+                (int) FloatField("Log To Console", GraphSettings.DefaultLogToConsole, 0, 1);
 
             GUILayout.Space(10);
 
@@ -69,6 +74,7 @@ namespace NWH
             {
                 result += 1;
             }
+
             GUILayout.EndHorizontal();
             return Mathf.Clamp(result, min, max);
         }

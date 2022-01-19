@@ -9,6 +9,7 @@ using UnityEngine.InputSystem.Utilities;
 public class @SimpleControls : IInputActionCollection, IDisposable
 {
     public InputActionAsset asset { get; }
+
     public @SimpleControls()
     {
         asset = InputActionAsset.FromJson(@"{
@@ -205,18 +206,42 @@ public class @SimpleControls : IInputActionCollection, IDisposable
     private readonly InputAction m_gameplay_fire;
     private readonly InputAction m_gameplay_move;
     private readonly InputAction m_gameplay_look;
+
     public struct GameplayActions
     {
         private @SimpleControls m_Wrapper;
-        public GameplayActions(@SimpleControls wrapper) { m_Wrapper = wrapper; }
+
+        public GameplayActions(@SimpleControls wrapper)
+        {
+            m_Wrapper = wrapper;
+        }
+
         public InputAction @fire => m_Wrapper.m_gameplay_fire;
         public InputAction @move => m_Wrapper.m_gameplay_move;
         public InputAction @look => m_Wrapper.m_gameplay_look;
-        public InputActionMap Get() { return m_Wrapper.m_gameplay; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
+
+        public InputActionMap Get()
+        {
+            return m_Wrapper.m_gameplay;
+        }
+
+        public void Enable()
+        {
+            Get().Enable();
+        }
+
+        public void Disable()
+        {
+            Get().Disable();
+        }
+
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(GameplayActions set) { return set.Get(); }
+
+        public static implicit operator InputActionMap(GameplayActions set)
+        {
+            return set.Get();
+        }
+
         public void SetCallbacks(IGameplayActions instance)
         {
             if (m_Wrapper.m_GameplayActionsCallbackInterface != null)
@@ -231,6 +256,7 @@ public class @SimpleControls : IInputActionCollection, IDisposable
                 @look.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLook;
                 @look.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLook;
             }
+
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
             {
@@ -246,7 +272,9 @@ public class @SimpleControls : IInputActionCollection, IDisposable
             }
         }
     }
+
     public GameplayActions @gameplay => new GameplayActions(this);
+
     public interface IGameplayActions
     {
         void OnFire(InputAction.CallbackContext context);

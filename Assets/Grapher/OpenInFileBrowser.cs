@@ -1,5 +1,4 @@
-﻿
-// Credits for this class belong to Unity3D Wiki developers: 
+﻿// Credits for this class belong to Unity3D Wiki developers: 
 // http://wiki.unity3d.com/index.php/OpenInFileBrowser
 
 namespace NWH
@@ -8,18 +7,12 @@ namespace NWH
     {
         public static bool IsInMacOS
         {
-            get
-            {
-                return UnityEngine.SystemInfo.operatingSystem.IndexOf("Mac OS") != -1;
-            }
+            get { return UnityEngine.SystemInfo.operatingSystem.IndexOf("Mac OS") != -1; }
         }
 
         public static bool IsInWinOS
         {
-            get
-            {
-                return UnityEngine.SystemInfo.operatingSystem.IndexOf("Windows") != -1;
-            }
+            get { return UnityEngine.SystemInfo.operatingSystem.IndexOf("Windows") != -1; }
         }
 
         public static void Test()
@@ -34,7 +27,8 @@ namespace NWH
             // try mac
             string macPath = path.Replace("\\", "/"); // mac finder doesn't like backward slashes
 
-            if (System.IO.Directory.Exists(macPath)) // if path requested is a folder, automatically open insides of that folder
+            if (System.IO.Directory.Exists(macPath)
+            ) // if path requested is a folder, automatically open insides of that folder
             {
                 openInsidesOfFolder = true;
             }
@@ -71,14 +65,16 @@ namespace NWH
             // try windows
             string winPath = path.Replace("/", "\\"); // windows explorer doesn't like forward slashes
 
-            if (System.IO.Directory.Exists(winPath)) // if path requested is a folder, automatically open insides of that folder
+            if (System.IO.Directory.Exists(winPath)
+            ) // if path requested is a folder, automatically open insides of that folder
             {
                 openInsidesOfFolder = true;
             }
 
             try
             {
-                System.Diagnostics.Process.Start("explorer.exe", (openInsidesOfFolder ? "/root," : "/select,") + winPath);
+                System.Diagnostics.Process.Start("explorer.exe",
+                    (openInsidesOfFolder ? "/root," : "/select,") + winPath);
             }
             catch (System.ComponentModel.Win32Exception e)
             {

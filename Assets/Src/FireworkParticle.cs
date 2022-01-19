@@ -8,7 +8,7 @@ public class FireworkParticle : MonoBehaviour
     private Vector3 velocity;
     private float mass = 1;
     private Mesh mesh;
-    
+
     private float timeToLiveSec;
     private float elapsedTime;
 
@@ -42,7 +42,7 @@ public class FireworkParticle : MonoBehaviour
             -Vector3.forward
         };
     }
-    
+
     public Vector3 Velocity
     {
         get => velocity;

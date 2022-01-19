@@ -22,7 +22,7 @@ public class BungeeGenerator : ForceGenerator
 
         if (spring.magnitude < restSpring.magnitude)
             return;
-        
+
         Debug.DrawLine(attachPoint, attachPoint + restSpring, Color.white);
         Debug.DrawLine(attachPoint + restSpring, attachPoint + restSpring + compression, Color.magenta);
 
