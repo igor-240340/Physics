@@ -6,10 +6,10 @@ public class Particle : MonoBehaviour
 {
     private List<ForceGenerator> forces = new List<ForceGenerator>();
 
-    private float size; // Cube size
+    private float size = 0.2f; // Cube size
 
     private Vector3 velocity;
-    private float mass;
+    private float mass = 1f;
     private Vector3 netForce;
 
     private Mesh mesh;
@@ -18,7 +18,7 @@ public class Particle : MonoBehaviour
     void Awake()
     {
         // Time.timeScale = 0.1f;
-        Time.fixedDeltaTime = 0.02f;
+        // Time.fixedDeltaTime = 0.02f;
 
         mesh = new Mesh();
         GetComponent<MeshFilter>().mesh = mesh;
@@ -42,6 +42,7 @@ public class Particle : MonoBehaviour
         Vector3 avgVel = (velocity + instantVel) / 2;
         position += avgVel * Time.fixedDeltaTime;*/
 
+        Debug.Log($"velocity: {velocity.ToString("F5")}");
         // Change in position calculated through trapezoid square (is mathematically equivalent the previous approach)
         Vector3 oldPos = transform.position; // TODO just for debug
         transform.position += (velocity + (velocity + accel * Time.fixedDeltaTime)) * Time.fixedDeltaTime / 2;

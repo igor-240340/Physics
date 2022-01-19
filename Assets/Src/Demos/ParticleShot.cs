@@ -13,11 +13,11 @@ public class ParticleShot : MonoBehaviour
 
     private Vector3 firstMouseWorldPos;
 
-    private ForceGenerator gravityForceGenerator;
+    private ForceGenerator gravity;
 
     private void Awake()
     {
-        gravityForceGenerator = new GravityForceGenerator();
+        gravity = new GravityForceGenerator();
     }
 
     public void Fire(InputAction.CallbackContext context)
@@ -30,11 +30,11 @@ public class ParticleShot : MonoBehaviour
         if (context.action.phase == InputActionPhase.Canceled)
         {
             Vector3 force = (firstMouseWorldPos - GetMouseWorldPos()) * 100;
-
+            
             particle = Instantiate(particlePrefab, firstMouseWorldPos, Quaternion.identity);
-            particle.GetComponent<Particle>().AddForceGenerator(gravityForceGenerator);
-            // particle.GetComponent<Particle>().AddForceSource(new InputForceSource(15));
+            particle.GetComponent<Particle>().AddForceGenerator(gravity);
             particle.GetComponent<Particle>().ApplyForce(force);
+            // particle.GetComponent<Particle>().AddForceGenerator(new InputForceGenerator(15));
 
             Debug.Log($"Start pos: {particle.transform.position.ToString("F5")}");
         }
