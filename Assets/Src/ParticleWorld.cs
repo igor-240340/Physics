@@ -18,6 +18,16 @@ public class ParticleWorld
 
     public void Step(float dt)
     {
-        Debug.Log($"step: {dt}");
+        particles.ForEach(particle =>
+        {
+            particle.position += particle.velocity * dt;
+
+            Vector3 oldVelocity = particle.velocity;
+            particle.velocity += (particle.force * particle.invMass + gravity) * dt;
+
+            particle.position += (particle.velocity - oldVelocity) * dt / 2;
+            
+            particle.force = Vector3.zero;
+        });
     }
 }

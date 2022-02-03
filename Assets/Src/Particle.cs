@@ -3,10 +3,12 @@
 public class Particle
 {
     public Vector3 position;
-    
+    public Vector3 force;
+    public Vector3 velocity;
+    public float invMass;
+
     private float mass;
-    private float invMass;
-    
+
     public void SetMass(float mass)
     {
         this.mass = mass;
@@ -16,5 +18,10 @@ public class Particle
     public void SetPosition(Vector3 position)
     {
         this.position = position;
+    }
+
+    public void ApplyForce(Vector3 force)
+    {
+        this.force += force;
     }
 }
