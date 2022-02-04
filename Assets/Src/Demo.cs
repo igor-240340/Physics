@@ -86,7 +86,7 @@ public class Demo : MonoBehaviour
         else if (context.action.phase == InputActionPhase.Canceled)
         {
             mousePressed = false;
-            
+
             Vector3 forceToApply = (firstMouseWorldPos - Utils.GetMouseWorldPos()) * 100;
             Particle particle = new Particle();
             particle.SetMass(1);
@@ -125,9 +125,14 @@ public class Demo : MonoBehaviour
     // ImGui
     void OnLayout()
     {
+        ShowOverlay(world.particles.Count, Utils.GetMouseScreenPos());
+    }
+
+    private void ShowOverlay(int particlesCount, Vector2 mousePos)
+    {
         ImGuiWindowFlags windowFlags = ImGuiWindowFlags.NoDecoration | ImGuiWindowFlags.AlwaysAutoResize |
-                                        ImGuiWindowFlags.NoSavedSettings | ImGuiWindowFlags.NoFocusOnAppearing |
-                                        ImGuiWindowFlags.NoNav;
+                                       ImGuiWindowFlags.NoSavedSettings | ImGuiWindowFlags.NoFocusOnAppearing |
+                                       ImGuiWindowFlags.NoNav;
         if (corner != -1)
         {
             float pad = 10;
@@ -144,18 +149,12 @@ public class Demo : MonoBehaviour
 
         ImGui.SetNextWindowBgAlpha(0.35f);
 
-        bool pPpen = false;
-        if (ImGui.Begin("Overlay", ref pPpen, windowFlags))
+        bool pOpen = false;
+        if (ImGui.Begin("Overlay", ref pOpen, windowFlags))
         {
-            ImGui.Text($"Total particles: {world.particles.Count}");
+            ImGui.Text($"Total particles: {particlesCount}");
             ImGui.Separator();
-            if (ImGui.IsMousePosValid())
-            {
-                Vector3 mousePos = Utils.GetMouseScreenPos();
-                ImGui.Text($"Mouse Position: {mousePos}");
-            }
-            else
-                ImGui.Text("Mouse Position: <invalid>");
+            ImGui.Text($"Mouse Position: {mousePos}");
 
             if (ImGui.BeginPopupContextWindow())
             {
@@ -164,7 +163,7 @@ public class Demo : MonoBehaviour
                 if (ImGui.MenuItem("Top-right", null, corner == 1)) corner = 1;
                 if (ImGui.MenuItem("Bottom-left", null, corner == 2)) corner = 2;
                 if (ImGui.MenuItem("Bottom-right", null, corner == 3)) corner = 3;
-                if (pPpen && ImGui.MenuItem("Close")) pPpen = false;
+                if (pOpen && ImGui.MenuItem("Close")) pOpen = false;
                 ImGui.EndPopup();
             }
         }
