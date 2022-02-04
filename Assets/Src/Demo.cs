@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.PlayerLoop;
+using ImGuiNET;
 
 public class Demo : MonoBehaviour
 {
@@ -22,6 +23,19 @@ public class Demo : MonoBehaviour
 
     private bool mousePressed;
     private Vector3 firstMouseWorldPos;
+
+    // ImGui
+    private int corner;
+
+    void OnEnable()
+    {
+        ImGuiUn.Layout += OnLayout;
+    }
+
+    void OnDisable()
+    {
+        ImGuiUn.Layout -= OnLayout;
+    }
 
     void Start()
     {
@@ -72,7 +86,7 @@ public class Demo : MonoBehaviour
         else if (context.action.phase == InputActionPhase.Canceled)
         {
             mousePressed = false;
-
+            
             Vector3 forceToApply = (firstMouseWorldPos - Utils.GetMouseWorldPos()) * 100;
             Particle particle = new Particle();
             particle.SetMass(1);
@@ -106,5 +120,55 @@ public class Demo : MonoBehaviour
             -Vector3.forward,
             -Vector3.forward
         };
+    }
+
+    // ImGui
+    void OnLayout()
+    {
+        ImGuiWindowFlags windowFlags = ImGuiWindowFlags.NoDecoration | ImGuiWindowFlags.AlwaysAutoResize |
+                                        ImGuiWindowFlags.NoSavedSettings | ImGuiWindowFlags.NoFocusOnAppearing |
+                                        ImGuiWindowFlags.NoNav;
+        if (corner != -1)
+        {
+            float pad = 10;
+            Vector2 workPos = Camera.main.pixelRect.position;
+            Vector2 workSize = Camera.main.pixelRect.size;
+            Vector2 windowPos, windowPosPivot;
+            windowPos.x = Convert.ToBoolean(corner & 1) ? (workPos.x + workSize.x - pad) : (workPos.x + pad);
+            windowPos.y = Convert.ToBoolean(corner & 2) ? (workPos.y + workSize.y - pad) : (workPos.y + pad);
+            windowPosPivot.x = Convert.ToBoolean(corner & 1) ? 1.0f : 0.0f;
+            windowPosPivot.y = Convert.ToBoolean(corner & 2) ? 1.0f : 0.0f;
+            ImGui.SetNextWindowPos(windowPos, ImGuiCond.Always, windowPosPivot);
+            windowFlags |= ImGuiWindowFlags.NoMove;
+        }
+
+        ImGui.SetNextWindowBgAlpha(0.35f);
+
+        bool pPpen = false;
+        if (ImGui.Begin("Overlay", ref pPpen, windowFlags))
+        {
+            ImGui.Text($"Total particles: {world.particles.Count}");
+            ImGui.Separator();
+            if (ImGui.IsMousePosValid())
+            {
+                Vector3 mousePos = Utils.GetMouseScreenPos();
+                ImGui.Text($"Mouse Position: {mousePos}");
+            }
+            else
+                ImGui.Text("Mouse Position: <invalid>");
+
+            if (ImGui.BeginPopupContextWindow())
+            {
+                if (ImGui.MenuItem("Custom", null, corner == -1)) corner = -1;
+                if (ImGui.MenuItem("Top-left", null, corner == 0)) corner = 0;
+                if (ImGui.MenuItem("Top-right", null, corner == 1)) corner = 1;
+                if (ImGui.MenuItem("Bottom-left", null, corner == 2)) corner = 2;
+                if (ImGui.MenuItem("Bottom-right", null, corner == 3)) corner = 3;
+                if (pPpen && ImGui.MenuItem("Close")) pPpen = false;
+                ImGui.EndPopup();
+            }
+        }
+
+        ImGui.End();
     }
 }

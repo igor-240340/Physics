@@ -10,4 +10,9 @@ public class Utils
         mouseWorldPos.z = 0; // Drops z-coordinate of the camera offset
         return mouseWorldPos;
     }
+
+    public static Vector2 GetMouseScreenPos()
+    {
+        return Mouse.current.position.ReadValue();
+    }
 }
