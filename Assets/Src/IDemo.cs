@@ -1,6 +1,8 @@
 ﻿using UnityEngine.InputSystem;
 
-public interface Demo
+public interface IDemo
 {
     void OnFire(InputAction.CallbackContext context);
+
+    void Init();
 }

@@ -16,8 +16,8 @@ public class App : MonoBehaviour
     private Mesh particleMesh;
     private Bounds particleBounds = new Bounds(Vector3.zero, Vector2.one * particleSize);
     
-    private List<Demo> demos = new List<Demo>();
-    private Demo activeDemo;
+    private List<IDemo> demos = new List<IDemo>();
+    private IDemo activeDemo;
 
     private bool mousePressed;
     private Particle selectedParticle; 
@@ -50,7 +50,7 @@ public class App : MonoBehaviour
     {
         world.particles.ForEach(particle =>
         {
-            Graphics.DrawMesh(particleMesh, particle.position, Quaternion.identity, particleMaterial, 0);
+            Graphics.DrawMesh(particleMesh, particle.pos, Quaternion.identity, particleMaterial, 0);
 
             if (mousePressed)
                 SelectParticle(particle);
@@ -64,7 +64,7 @@ public class App : MonoBehaviour
 
         Ray mouseRay = Camera.main.ScreenPointToRay(mouseScreenPos);
 
-        particleBounds.center = particle.position;
+        particleBounds.center = particle.pos;
         float dist;
         if (particleBounds.IntersectRay(mouseRay, out dist))
         {
@@ -93,6 +93,7 @@ public class App : MonoBehaviour
                     {
                         world.Clear();
                         activeDemo = demos[demoIndex];
+                        activeDemo.Init();
                         break;
                     }
                 }
@@ -129,6 +130,7 @@ public class App : MonoBehaviour
     private void CreateDemos()
     {
         demos.Add(new ParticleShotDemo(world));
+        demos.Add(new AnchoredSpringDemo(world));
     }
 
     // ImGui
@@ -161,7 +163,7 @@ public class App : MonoBehaviour
         bool pOpen = false;
         if (ImGui.Begin("Help", ref pOpen, windowFlags))
         {
-            ImGui.Text("Switch between demos by pressing 0-9");
+            ImGui.Text("To switch between demos press keys 0-9");
             ImGui.Separator();
             ImGui.Text($"Current demo: {activeDemo}");
 
