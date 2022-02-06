@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Net;
 using UnityEngine;
 
 public class ParticleWorld
@@ -41,5 +40,10 @@ public class ParticleWorld
 
         outOfWorld.ForEach(particle => particles.Remove(particle));
         outOfWorld.Clear();
+    }
+
+    public void Clear()
+    {
+        particles.Clear();
     }
 }
