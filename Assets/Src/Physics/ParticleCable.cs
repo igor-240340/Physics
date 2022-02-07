@@ -1,12 +1,16 @@
-﻿using UnityEngine;
-
-public class ParticleCable : ParticleLink, ParticleContactGenerator
+﻿public class ParticleCable : ParticleLink, IParticleContactGenerator
 {
-    public float lenght;
     public float restitution;
-    
-    public void AddContact(ParticleContact contact)
+    public float maxLength;
+
+    public ParticleCable(Particle particleA, Particle particleB, float maxLength) : base(particleA, particleB)
     {
-        throw new System.NotImplementedException();
+        this.maxLength = maxLength;
+    }
+
+    public bool GenerateContact(out ParticleContact contact)
+    {
+        contact = null;
+        return contact is not null;
     }
 }

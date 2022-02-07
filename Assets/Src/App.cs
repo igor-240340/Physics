@@ -39,6 +39,39 @@ public class App : MonoBehaviour
         CreateDemos();
     }
 
+    private void BuildParticleMesh()
+    {
+        particleMesh = new Mesh();
+
+        Vector3[] vertices = new Vector3[4];
+        vertices[0] = new Vector3(-particleSize / 2, -particleSize / 2);
+        vertices[1] = new Vector3(-particleSize / 2, particleSize / 2);
+        vertices[2] = new Vector3(particleSize / 2, particleSize / 2);
+        vertices[3] = new Vector3(particleSize / 2, -particleSize / 2);
+        particleMesh.vertices = vertices;
+
+        particleMesh.triangles = new[]
+        {
+            0, 1, 3,
+            1, 2, 3
+        };
+
+        particleMesh.normals = new[]
+        {
+            -Vector3.forward,
+            -Vector3.forward,
+            -Vector3.forward,
+            -Vector3.forward
+        };
+    }
+
+    private void CreateDemos()
+    {
+        demos.Add(new ParticleShotDemo(world));
+        demos.Add(new AnchoredSpringDemo(world));
+        demos.Add(new ParticleCableDemo(world));
+    }
+
     void FixedUpdate()
     {
         world.Step(Time.fixedDeltaTime);
@@ -117,38 +150,6 @@ public class App : MonoBehaviour
     {
         if (pickedParticle != null)
             pickedParticle.pos = Utils.GetMouseWorldPosXY();
-    }
-
-    private void BuildParticleMesh()
-    {
-        particleMesh = new Mesh();
-
-        Vector3[] vertices = new Vector3[4];
-        vertices[0] = new Vector3(-particleSize / 2, -particleSize / 2);
-        vertices[1] = new Vector3(-particleSize / 2, particleSize / 2);
-        vertices[2] = new Vector3(particleSize / 2, particleSize / 2);
-        vertices[3] = new Vector3(particleSize / 2, -particleSize / 2);
-        particleMesh.vertices = vertices;
-
-        particleMesh.triangles = new[]
-        {
-            0, 1, 3,
-            1, 2, 3
-        };
-
-        particleMesh.normals = new[]
-        {
-            -Vector3.forward,
-            -Vector3.forward,
-            -Vector3.forward,
-            -Vector3.forward
-        };
-    }
-
-    private void CreateDemos()
-    {
-        demos.Add(new ParticleShotDemo(world));
-        demos.Add(new AnchoredSpringDemo(world));
     }
 
     // ImGui

@@ -1,9 +1,15 @@
-﻿public class ParticleLink
+﻿public abstract class ParticleLink
 {
-    public Particle particleA;
-    public Particle particleB;
+    public Particle particleA, particleB;
 
-    public ParticleLink()
+    protected ParticleLink(Particle particleA, Particle particleB)
     {
+        this.particleA = particleA;
+        this.particleB = particleB;
+    }
+
+    protected float CurrentLength()
+    {
+        return (particleA.pos - particleB.pos).magnitude;
     }
 }

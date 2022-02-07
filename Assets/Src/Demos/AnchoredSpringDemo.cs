@@ -20,6 +20,5 @@ public class AnchoredSpringDemo : IDemo
 
     public void OnFire(InputAction.CallbackContext context)
     {
-        
     }
 }
