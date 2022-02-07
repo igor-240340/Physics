@@ -14,7 +14,7 @@ public class ParticleForceRegistry
         }
     }
 
-    private List<ParticleForcePair> pairs = new List<ParticleForcePair>();
+    private List<ParticleForcePair> pairs = new();
 
     public void Register(Particle particle, ParticleForceGenerator force)
     {
@@ -23,11 +23,30 @@ public class ParticleForceRegistry
 
     public void ApplyForces()
     {
-        pairs.ForEach(pair => pair.force.ApplyTo(pair.particle));
+        pairs.ForEach(pair =>
+        {
+            if (pair.particle.isPaused)
+                return;
+            
+            pair.force.ApplyTo(pair.particle);
+        });
     }
 
     public void Clear()
     {
         pairs.Clear();
+    }
+
+    public void Remove(Particle particle)
+    {
+        var pairsToRemove = new List<ParticleForcePair>();
+        
+        pairs.ForEach(pair =>
+        {
+            if (pair.particle == particle)
+                pairsToRemove.Add(pair);
+        });
+
+        pairsToRemove.ForEach(pair => pairs.Remove(pair));
     }
 }

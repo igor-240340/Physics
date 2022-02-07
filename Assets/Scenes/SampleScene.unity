@@ -298,6 +298,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 578a0b47-a31a-4519-a391-edd363a16d2b
     m_ActionName: Player/DemoSelect[/Keyboard/anyKey]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 255641897}
+        m_TargetAssemblyTypeName: App, Assembly-CSharp
+        m_MethodName: OnMouseMove
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a8eaa1f2-0d92-4e54-baad-b0e7c79dc1f9
+    m_ActionName: Player/MouseMove[/Mouse/position]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

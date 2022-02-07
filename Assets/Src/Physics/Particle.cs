@@ -6,6 +6,7 @@ public class Particle
     public Vector3 force;
     public Vector3 velocity;
     public float invMass;
+    public bool isPaused;
 
     private float mass;
 
@@ -14,7 +15,7 @@ public class Particle
         SetMass(mass);
         SetPosition(pos);
     }
-    
+
     public void SetMass(float mass)
     {
         this.mass = mass;
@@ -29,5 +30,15 @@ public class Particle
     public void ApplyForce(Vector3 force)
     {
         this.force += force;
+    }
+
+    public void PausePhysics()
+    {
+        isPaused = true;
+    }
+
+    public void ResumePhysics()
+    {
+        isPaused = false;
     }
 }

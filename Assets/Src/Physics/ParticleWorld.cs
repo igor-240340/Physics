@@ -8,6 +8,7 @@ public class ParticleWorld
     public ParticleForceRegistry forceRegistry = new ParticleForceRegistry();
 
     private Vector3 gravity = new Vector3(0, -10, 0);
+    // private Vector3 gravity = new Vector3(0, 0, 0);
     private float sqrWorldSize = (Vector3.one * 10).sqrMagnitude;
     private List<Particle> outOfWorld = new List<Particle>();
 
@@ -26,6 +27,9 @@ public class ParticleWorld
         
         particles.ForEach(particle =>
         {
+            if (particle.isPaused)
+                return;
+            
             particle.pos += particle.velocity * dt;
 
             if (particle.pos.sqrMagnitude > sqrWorldSize)
@@ -42,7 +46,11 @@ public class ParticleWorld
             particle.force = Vector3.zero;
         });
 
-        outOfWorld.ForEach(particle => particles.Remove(particle));
+        outOfWorld.ForEach(particle =>
+        {
+            particles.Remove(particle);
+            forceRegistry.Remove(particle);
+        });
         outOfWorld.Clear();
     }
 

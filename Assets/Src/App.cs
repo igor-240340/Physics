@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using ImGuiNET;
-using UnityEngine.InputSystem.Controls;
 
 public class App : MonoBehaviour
 {
@@ -15,12 +14,11 @@ public class App : MonoBehaviour
     private const float particleSize = 0.2f;
     private Mesh particleMesh;
     private Bounds particleBounds = new Bounds(Vector3.zero, Vector2.one * particleSize);
-    
+
     private List<IDemo> demos = new List<IDemo>();
     private IDemo activeDemo;
 
-    private bool mousePressed;
-    private Particle selectedParticle; 
+    private Particle pickedParticle;
 
     // ImGui
     private int corner;
@@ -49,35 +47,49 @@ public class App : MonoBehaviour
     void Update()
     {
         world.particles.ForEach(particle =>
+            Graphics.DrawMesh(particleMesh, particle.pos, Quaternion.identity, particleMaterial, 0)
+        );
+
+        /*if (mousePressed && pickedParticle != null)
         {
-            Graphics.DrawMesh(particleMesh, particle.pos, Quaternion.identity, particleMaterial, 0);
-
-            if (mousePressed)
-                SelectParticle(particle);
-        });
-    }
-
-    void SelectParticle(Particle particle)
-    {
-        Vector2 mouseScreenPos = Mouse.current.position.ReadValue();
-        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
-
-        Ray mouseRay = Camera.main.ScreenPointToRay(mouseScreenPos);
-
-        particleBounds.center = particle.pos;
-        float dist;
-        if (particleBounds.IntersectRay(mouseRay, out dist))
-        {
-            selectedParticle = particle;
-
-            Debug.DrawRay(mouseWorldPos, mouseRay.direction * (dist + Camera.main.nearClipPlane), Color.magenta, 10);
-            Debug.Log($"dist: {dist}");
-        }
+            pickedParticle.pos = Utils.GetMouseWorldPosXY();
+            Debug.Log($"mouse: {Mouse.current.position.ReadValue()}");
+        }*/
     }
 
     public void OnFire(InputAction.CallbackContext context)
     {
+        if (context.action.phase == InputActionPhase.Started)
+        {
+            Ray mouseRay = Utils.GetMouseRay();
+            foreach (Particle particle in world.particles)
+            {
+                if (TryPickParticle(particle, mouseRay, out pickedParticle))
+                {
+                    particle.PausePhysics();
+                    particle.force = particle.velocity = Vector3.zero;
+                    break;
+                }
+            }
+        }
+        else if (context.action.phase == InputActionPhase.Canceled)
+        {
+            pickedParticle?.ResumePhysics();
+            pickedParticle = null;
+        }
+
         activeDemo?.OnFire(context);
+    }
+
+    private bool TryPickParticle(Particle particle, Ray mouseRay, out Particle picked)
+    {
+        picked = null;
+
+        particleBounds.center = particle.pos;
+        if (particleBounds.IntersectRay(mouseRay))
+            picked = particle;
+        
+        return picked is not null;
     }
 
     public void OnDemoSelect(InputAction.CallbackContext context)
@@ -99,6 +111,12 @@ public class App : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void OnMouseMove(InputAction.CallbackContext context)
+    {
+        if (pickedParticle != null)
+            pickedParticle.pos = Utils.GetMouseWorldPosXY();
     }
 
     private void BuildParticleMesh()
@@ -166,6 +184,17 @@ public class App : MonoBehaviour
             ImGui.Text("To switch between demos press keys 0-9");
             ImGui.Separator();
             ImGui.Text($"Current demo: {activeDemo}");
+            ImGui.Separator();
+            ImGui.Text($"Particles in world: {world.particles.Count}");
+
+            if (pickedParticle != null)
+            {
+                ImGui.Separator();
+                ImGui.Text($"Picked particle\n" +
+                           $"pos: {pickedParticle.pos}\n" +
+                           $"vel: {pickedParticle.velocity}\n" +
+                           $"force: {pickedParticle.force}");
+            }
 
             if (ImGui.BeginPopupContextWindow())
             {

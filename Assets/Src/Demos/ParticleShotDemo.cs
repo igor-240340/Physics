@@ -19,10 +19,10 @@ public class ParticleShotDemo : IDemo
     public void OnFire(InputAction.CallbackContext context)
     {
         if (context.action.phase == InputActionPhase.Started)
-            prevMousePos = Utils.GetMouseWorldPos();
+            prevMousePos = Utils.GetMouseWorldPosXY();
         else if (context.action.phase == InputActionPhase.Canceled)
         {
-            Vector3 forceToApply = (prevMousePos - Utils.GetMouseWorldPos()) * 100;
+            Vector3 forceToApply = (prevMousePos - Utils.GetMouseWorldPosXY()) * 100;
 
             Particle particle = new Particle(1, prevMousePos);
             particle.ApplyForce(forceToApply);

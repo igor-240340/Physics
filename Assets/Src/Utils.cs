@@ -3,7 +3,8 @@ using UnityEngine.InputSystem;
 
 public class Utils
 {
-    public static Vector3 GetMouseWorldPos()
+    // Returns a world space position of the mouse projected onto xy-plane
+    public static Vector3 GetMouseWorldPosXY()
     {
         Vector2 mouseScreenPos = Mouse.current.position.ReadValue();
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
@@ -11,8 +12,19 @@ public class Utils
         return mouseWorldPos;
     }
 
+    public static Vector3 GetMouseWorldPos()
+    {
+        Vector2 mouseScreenPos = Mouse.current.position.ReadValue();
+        return Camera.main.ScreenToWorldPoint(mouseScreenPos);
+    }
+
     public static Vector2 GetMouseScreenPos()
     {
         return Mouse.current.position.ReadValue();
+    }
+
+    public static Ray GetMouseRay()
+    {
+        return Camera.main.ScreenPointToRay(GetMouseScreenPos());
     }
 }
