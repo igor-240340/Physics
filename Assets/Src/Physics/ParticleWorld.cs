@@ -8,7 +8,6 @@ public class ParticleWorld
     public ParticleForceRegistry forceRegistry = new ParticleForceRegistry();
 
     private Vector3 gravity = new Vector3(0, -10, 0);
-    // private Vector3 gravity = new Vector3(0, 0, 0);
     private float sqrWorldSize = (Vector3.one * 10).sqrMagnitude;
     private List<Particle> outOfWorld = new List<Particle>();
 

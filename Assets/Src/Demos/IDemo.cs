@@ -2,7 +2,7 @@
 
 public interface IDemo
 {
-    void OnFire(InputAction.CallbackContext context);
-
     void Init();
+    
+    void OnFire(InputAction.CallbackContext context);
 }

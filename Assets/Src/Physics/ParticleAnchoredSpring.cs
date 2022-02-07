@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class ParticleAnchoredSpring : ParticleForceGenerator
+public class ParticleAnchoredSpring : IParticleForceGenerator
 {
     private float k;
     private float restLength;

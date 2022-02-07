@@ -5,9 +5,9 @@ public class ParticleForceRegistry
     private struct ParticleForcePair
     {
         public Particle particle;
-        public ParticleForceGenerator force;
+        public IParticleForceGenerator force;
 
-        public ParticleForcePair(Particle particle, ParticleForceGenerator force)
+        public ParticleForcePair(Particle particle, IParticleForceGenerator force)
         {
             this.particle = particle;
             this.force = force;
@@ -16,7 +16,7 @@ public class ParticleForceRegistry
 
     private List<ParticleForcePair> pairs = new();
 
-    public void Register(Particle particle, ParticleForceGenerator force)
+    public void Register(Particle particle, IParticleForceGenerator force)
     {
         pairs.Add(new ParticleForcePair(particle, force));
     }

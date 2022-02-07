@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class AnchoredSpringDemo : IDemo
 {
     private ParticleWorld world;
-    private ParticleForceGenerator spring = new ParticleAnchoredSpring(Vector3.up, 10f, 1);
+    private IParticleForceGenerator spring = new ParticleAnchoredSpring(Vector3.up, 10f, 1);
 
     public AnchoredSpringDemo(ParticleWorld world)
     {
