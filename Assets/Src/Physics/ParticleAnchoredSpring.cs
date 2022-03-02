@@ -16,20 +16,15 @@ public class ParticleAnchoredSpring : IParticleForceGenerator
     public void ApplyTo(Particle particle)
     {
         Vector3 spring = particle.pos - anchor;
+        Vector3 springDir = spring.normalized;
         float springLength = spring.magnitude;
         float compression = springLength - restLength;
-        Vector3 force = spring.normalized * (-compression * k);
-        
+        Vector3 force = springDir * (-compression * k);
+
+        Vector3 restSpringEnd = anchor + springDir * restLength;
+        Debug.DrawLine(anchor, restSpringEnd, Color.green);
+        Debug.DrawLine(restSpringEnd, particle.pos, Color.magenta);
+
         particle.ApplyForce(force);
-
-        Debug.DrawLine(anchor, anchor + spring.normalized * restLength, Color.white);
-
-        // Debug.Log($"compression: {compression.ToString("F5")}");
-        Debug.DrawLine(anchor + spring.normalized * restLength,
-            (anchor + spring.normalized * restLength) + spring.normalized * compression, Color.magenta);
-
-
-        Debug.Log($"force: {force.ToString("F5")}");
-        // Debug.DrawLine(particle.transform.position, particle.transform.position + force / 100f, Color.yellow);
     }
 }

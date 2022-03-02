@@ -80,14 +80,10 @@ public class App : MonoBehaviour
     void Update()
     {
         world.particles.ForEach(particle =>
-            Graphics.DrawMesh(particleMesh, particle.pos, Quaternion.identity, particleMaterial, 0)
-        );
-
-        /*if (mousePressed && pickedParticle != null)
         {
-            pickedParticle.pos = Utils.GetMouseWorldPosXY();
-            Debug.Log($"mouse: {Mouse.current.position.ReadValue()}");
-        }*/
+            Graphics.DrawMesh(particleMesh, particle.pos, Quaternion.identity, particleMaterial, 0);
+            Debug.DrawLine(particle.pos, particle.pos + particle.velocity, Color.blue);
+        });
     }
 
     public void OnFire(InputAction.CallbackContext context)
@@ -121,7 +117,7 @@ public class App : MonoBehaviour
         particleBounds.center = particle.pos;
         if (particleBounds.IntersectRay(mouseRay))
             picked = particle;
-        
+
         return picked is not null;
     }
 
@@ -136,7 +132,7 @@ public class App : MonoBehaviour
                     int demoIndex = (int)key - (int)Key.Digit1;
                     if (demoIndex < demos.Count)
                     {
-                        world.Clear();
+                        world.Reset();
                         activeDemo = demos[demoIndex];
                         activeDemo.Init();
                         break;
@@ -177,7 +173,7 @@ public class App : MonoBehaviour
             windowFlags |= ImGuiWindowFlags.NoMove;
         }
 
-        ImGui.SetNextWindowBgAlpha(0.35f);
+        ImGui.SetNextWindowBgAlpha(1);
 
         bool pOpen = false;
         if (ImGui.Begin("Help", ref pOpen, windowFlags))

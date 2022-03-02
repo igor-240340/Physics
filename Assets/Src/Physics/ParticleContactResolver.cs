@@ -4,6 +4,6 @@ public class ParticleContactResolver
 {
     public void ResolveContacts(List<ParticleContact> contacts)
     {
-        contacts.ForEach(contact => contact.resolve());
+        contacts.ForEach(contact => contact.Resolve());
     }
 }
