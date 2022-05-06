@@ -3,9 +3,9 @@
 public class ParticleContact
 {
     public Particle particleA, particleB;
-    public float restitution;
     public Vector3 contactNormal;
     public float penetration;
+    public float restitution;
 
     public void Resolve()
     {
@@ -15,19 +15,21 @@ public class ParticleContact
 
     private void ResolveVelocity()
     {
-        float separatingVelocity = Vector3.Dot(particleA.velocity - particleB.velocity, contactNormal);
-        float newSeparatingVelocity = -separatingVelocity * restitution;
-        float dSeparatingVelocity = newSeparatingVelocity - separatingVelocity;
-
-        Debug.Log($"separatingVelocity: {separatingVelocity}");
-        Debug.Log($"newSeparatingVelocity: {newSeparatingVelocity}");
-        Debug.Log($"dSeparatingVelocity: {dSeparatingVelocity}");
-
-        Debug.DrawLine(particleA.pos, particleA.pos + separatingVelocity * contactNormal, Color.yellow);
-        Debug.DrawLine(particleA.pos, particleA.pos + newSeparatingVelocity * contactNormal, Color.red);
+        float sepVelocity = CalculateSeparatingVelocity();
+        float impulseANormalProj = -sepVelocity * (1 + restitution) / (particleA.invMass + particleB.invMass);
+        
+        Vector3 impulseA = impulseANormalProj * contactNormal;
+        particleA.velocity += impulseA * particleA.invMass;
+        particleB.velocity += -impulseA * particleB.invMass;
     }
 
     private void ResolveInterpenetration()
     {
+        Debug.Log("ResolveInterpenetration");
+    }
+
+    private float CalculateSeparatingVelocity()
+    {
+        return Vector3.Dot(particleA.velocity - particleB.velocity, contactNormal);
     }
 }

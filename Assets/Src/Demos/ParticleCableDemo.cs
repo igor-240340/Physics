@@ -14,15 +14,15 @@ public class ParticleCableDemo : IDemo
     {
         world.SwitchOffGravity();
 
-        Particle particleA = new Particle(0.38f, new Vector3(-6.48f, -4.77f));
-        particleA.velocity = new Vector3(3.20f, 3.21f);
+        Particle particleA = new Particle(1.35f, new Vector3(2, -2));
+        particleA.velocity = new Vector3(-0.7f, 0.3f);
         world.Add(particleA);
 
-        Particle particleB = new Particle(0.19f, new Vector3(-8.49f, -4.69f));
-        particleB.velocity = new Vector3(-1.29f, 1.30f);
+        Particle particleB = new Particle(0.7f, new Vector3(2, -2));
+        particleB.velocity = new Vector3(0.2f, 0.2f);
         world.Add(particleB);
 
-        ParticleCable cable = new ParticleCable(particleA, particleB, 5, 0.5f);
+        ParticleCable cable = new ParticleCable(particleA, particleB, 3, 0.7f);
         world.contactGenerators.Add(cable);
     }
 
