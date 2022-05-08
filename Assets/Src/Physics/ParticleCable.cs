@@ -22,13 +22,17 @@ public class ParticleCable : ParticleLink, IParticleContactGenerator
             {
                 particleA = particleA,
                 particleB = particleB,
-                contactNormal = (particleA.pos - particleB.pos).normalized,
+                normal = (particleB.pos - particleA.pos).normalized,
                 penetration = CurrentLength() - maxLength,
                 restitution = restitution
             };
-            Debug.DrawLine(particleB.pos, particleB.pos + contact.contactNormal * maxLength, Color.green);
-            Debug.DrawLine(particleB.pos + contact.contactNormal * maxLength, particleA.pos, Color.magenta);
-            Debug.Log($"Contact detected:\nA:{particleA.pos.ToString("F4")}\nB:{particleB.pos.ToString("F4")}");
+            // Debug.DrawLine(particleA.pos, particleA.pos + contact.normal, Color.red, 10);
+            Debug.Log($"Contact detected:\n" +
+                      $"Apos:{particleA.pos.ToString("F4")}\n" +
+                      $"Bpos:{particleB.pos.ToString("F4")}\n" +
+                      $"Avel:{particleA.velocity.ToString("F4")}\n" +
+                      $"Bvel:{particleB.velocity.ToString("F4")}\n" +
+                      $"penetration: {contact.penetration}");
         }
         else
             Debug.DrawLine(particleB.pos, particleA.pos, Color.green);

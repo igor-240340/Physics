@@ -83,7 +83,6 @@ public class App : MonoBehaviour
         {
             Graphics.DrawMesh(particleMesh, particle.pos, Quaternion.identity, particleMaterial, 0);
             Debug.DrawLine(particle.pos, particle.pos + particle.velocity, Color.blue);
-            Debug.Log($"Vel: {particle.velocity.ToString("F4")}");
         });
     }
 

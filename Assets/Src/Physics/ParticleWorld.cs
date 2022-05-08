@@ -23,7 +23,7 @@ public class ParticleWorld
         List<Particle> outOfWorld = new();
         particles.ForEach(particle =>
         {
-            if (particle.isPaused)
+            if (particle.isPaused || particle.invMass == 0.0f)
                 return;
 
             particle.pos += particle.velocity * dt;
