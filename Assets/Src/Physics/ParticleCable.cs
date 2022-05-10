@@ -27,15 +27,14 @@ public class ParticleCable : ParticleLink, IParticleContactGenerator
                 restitution = restitution
             };
             // Debug.DrawLine(particleA.pos, particleA.pos + contact.normal, Color.red, 10);
-            Debug.Log($"Contact detected:\n" +
+            Debug.Log($"Contact detected ({particleA.GetType().Name}, {particleB.GetType().Name}):\n" +
                       $"Apos:{particleA.pos.ToString("F4")}\n" +
                       $"Bpos:{particleB.pos.ToString("F4")}\n" +
                       $"Avel:{particleA.velocity.ToString("F4")}\n" +
                       $"Bvel:{particleB.velocity.ToString("F4")}\n" +
                       $"penetration: {contact.penetration}");
         }
-        else
-            Debug.DrawLine(particleB.pos, particleA.pos, Color.green);
+        Debug.DrawLine(particleB.pos, particleA.pos, Color.green);
 
         return contact is not null;
     }

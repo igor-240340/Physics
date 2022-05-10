@@ -35,6 +35,9 @@ public class App : MonoBehaviour
 
     void Start()
     {
+        // Time.timeScale = 0.1f;
+        // Application.targetFrameRate = 8;
+        
         BuildParticleMesh();
         CreateDemos();
     }

@@ -11,14 +11,24 @@ public class ParticleContact
     {
         if (particleA.invMass == 0.0f && particleB.invMass == 0.0f)
             return;
-        
+
         ResolveVelocity();
         ResolvePenetration();
+
+        Debug.Log($"Contact resolved ({particleA.GetType().Name}, {particleB.GetType().Name}):\n" +
+                  $"Apos:{particleA.pos.ToString("F4")}\n" +
+                  $"Bpos:{particleB.pos.ToString("F4")}\n" +
+                  $"Avel:{particleA.velocity.ToString("F4")}\n" +
+                  $"Bvel:{particleB.velocity.ToString("F4")}");
     }
 
     private void ResolveVelocity()
     {
         float normalVelocity = CalculateNormalVelocity();
+
+        if (normalVelocity >= 0.0f)
+            return;
+
         float impulseNormalProj = -normalVelocity * (1 + restitution) / (particleA.invMass + particleB.invMass);
 
         Vector3 impulse = impulseNormalProj * normal;
