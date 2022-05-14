@@ -73,6 +73,7 @@ public class App : MonoBehaviour
         demos.Add(new ParticleShotDemo(world));
         demos.Add(new AnchoredSpringDemo(world));
         demos.Add(new ParticleCableDemo(world));
+        demos.Add(new ParticleRodDemo(world));
     }
 
     void FixedUpdate()
