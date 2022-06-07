@@ -8,7 +8,7 @@ public class ParticleContactResolver
         int contactIndex = 0;
         foreach (var contact in contacts)
         {
-            MyPlot.SubPlot(1, contacts.Count, currentPlotIndex++);
+            MyPlot.SubPlot(3, contacts.Count, contacts.Count + currentPlotIndex++);
             
             // The whole system and the contact on the moment of its detection
             MatplotHelper.DrawPosAfterIntegrating();
@@ -16,7 +16,7 @@ public class ParticleContactResolver
             
             // The whole system and the contact on the moment of its handling
             MatplotHelper.DrawParticles();
-            MatplotHelper.DrawContact(contact, "red");
+            MatplotHelper.DrawContact(contact, "black");
             
             contact.Resolve();
             

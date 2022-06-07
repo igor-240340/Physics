@@ -14,18 +14,12 @@ public class ParticleContact
 
         ResolveVelocity();
         ResolvePenetration();
-
-        Debug.Log($"Contact resolved ({GetHashCode()}):\n" +
-                  $"Apos:{particleA.pos.ToString("F4")}\n" +
-                  $"Bpos:{particleB.pos.ToString("F4")}\n" +
-                  $"Avel:{particleA.velocity.ToString("F4")}\n" +
-                  $"Bvel:{particleB.velocity.ToString("F4")}");
     }
 
     private void ResolveVelocity()
     {
         float normalVelocity = CalculateNormalVelocity();
-
+        
         if (normalVelocity >= 0.0f)
             return;
 
@@ -47,14 +41,7 @@ public class ParticleContact
         float penOverTotalInvMass = penetration / (particleA.invMass + particleB.invMass);
         Vector3 offsetA = penOverTotalInvMass * particleA.invMass * normal;
         Vector3 offsetB = -(penOverTotalInvMass * particleB.invMass * normal);
-
-        /*Debug.Log($"offsetA:{offsetA.magnitude}\n" +
-                  $"offsetB:{offsetB.magnitude}\n" +
-                  $"pen:{penetration}\n");
-
-        Debug.Log($"newAvel:{particleA.velocity.ToString("F4")}\n" +
-                  $"newBvel:{particleB.velocity.ToString("F4")}\n");*/
-
+        
         particleA.pos += offsetA;
         particleB.pos += offsetB;
     }
