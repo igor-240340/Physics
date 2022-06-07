@@ -6,8 +6,7 @@ using ImGuiNET;
 
 public class App : MonoBehaviour
 {
-    [SerializeField]
-    private Material particleMaterial;
+    [SerializeField] private Material particleMaterial;
 
     private ParticleWorld world = new ParticleWorld();
 
@@ -37,7 +36,7 @@ public class App : MonoBehaviour
     {
         // Time.timeScale = 0.1f;
         // Application.targetFrameRate = 8;
-        
+
         BuildParticleMesh();
         CreateDemos();
     }
@@ -133,7 +132,7 @@ public class App : MonoBehaviour
             {
                 if (Keyboard.current[key].wasPressedThisFrame)
                 {
-                    int demoIndex = (int)key - (int)Key.Digit1;
+                    int demoIndex = (int) key - (int) Key.Digit1;
                     if (demoIndex < demos.Count)
                     {
                         world.Reset();
@@ -210,5 +209,14 @@ public class App : MonoBehaviour
         }
 
         ImGui.End();
+    }
+
+    void OnApplicationQuit()
+    {
+        Debug.Log("[App.cs] OnApplicationQuit()");
+#if !UNITY_EDITOR
+        Debug.Log("[App.cs] MyPlot.Shutdown()");
+        MyPlot.Shutdown();
+#endif
     }
 }

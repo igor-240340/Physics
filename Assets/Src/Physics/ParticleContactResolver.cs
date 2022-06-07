@@ -4,6 +4,24 @@ public class ParticleContactResolver
 {
     public void ResolveContacts(List<ParticleContact> contacts)
     {
-        contacts.ForEach(contact => contact.Resolve());
+        int currentPlotIndex = 1;
+        int contactIndex = 0;
+        foreach (var contact in contacts)
+        {
+            MyPlot.SubPlot(1, contacts.Count, currentPlotIndex++);
+            
+            // The whole system and the contact on the moment of its detection
+            MatplotHelper.DrawPosAfterIntegrating();
+            MatplotHelper.DrawPreservedContact(contactIndex++);
+            
+            // The whole system and the contact on the moment of its handling
+            MatplotHelper.DrawParticles();
+            MatplotHelper.DrawContact(contact, "red");
+            
+            contact.Resolve();
+            
+            MatplotHelper.DrawParticles("green");
+            MatplotHelper.DrawContact(contact, "green", true);
+        }
     }
 }

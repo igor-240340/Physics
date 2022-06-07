@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class ParticleWorld
@@ -18,6 +20,18 @@ public class ParticleWorld
 
     public void Step(float dt)
     {
+        MatplotHelper.ClearPlot();
+
+        /*MyPlot.SubPlot(2, 2, 1);
+        MatplotHelper.DrawParticles(particles);
+        MatplotHelper.DrawGens(contactGenerators);
+        MatplotHelper.DrawVels(particles);*/
+        
+        /*MyPlot.SubPlot(2, 2, 2);
+        MatplotHelper.DrawParticles(particles,"grey");
+        MatplotHelper.DrawGens(contactGenerators, false, "grey");
+        MatplotHelper.DrawVels(particles, "grey");*/
+
         forceRegistry.ApplyForces();
 
         List<Particle> outOfWorld = new();
@@ -42,6 +56,14 @@ public class ParticleWorld
             particle.force = Vector3.zero;
         });
         
+        // Preserve positions after integrating
+        MatplotHelper.CopyPositionsOf(particles);
+        
+        // MyPlot.SubPlot(2, 2, 2);
+        /*MatplotHelper.DrawParticles(particles);
+        MatplotHelper.DrawGens(contactGenerators, false);
+        MatplotHelper.DrawVels(particles);*/
+
         // todo: what should we do if a particle is linked with another particle
         outOfWorld.ForEach(particle =>
         {
@@ -53,9 +75,43 @@ public class ParticleWorld
         contactGenerators.ForEach(contactGen =>
         {
             if (contactGen.GenerateContact(out ParticleContact contact))
+            {
                 contacts.Add(contact);
+            }
         });
+
+        MatplotHelper.PreserveContactState(contacts);
+        MatplotHelper.particles = particles;
+
+        // MyPlot.clf();
+        /*contacts.ForEach(c =>
+        {
+            MyPlot.scatter(
+                new[] {c.particleA.pos.x, c.particleB.pos.x},
+                new[] {c.particleA.pos.y, c.particleB.pos.y}, 2,
+                new[]
+                {
+                    new MyPlot.KeywordValue("c", "k")
+                }, 1, 20.0f);
+
+            Vector3 penEnd = c.particleA.pos + (c.normal * c.penetration);
+            MyPlot.plot(
+                new[] {c.particleA.pos.x, penEnd.x},
+                new[] {c.particleA.pos.y, penEnd.y}, 2,
+                new[] {new MyPlot.KeywordValue("c", "red")}, 1);
+
+            MyPlot.plot(
+                new[] {penEnd.x, c.particleB.pos.x},
+                new[] {penEnd.y, c.particleB.pos.y}, 2,
+                new[] {new MyPlot.KeywordValue("c", "green")}, 1);
+        });*/
+
         contactResolver.ResolveContacts(contacts);
+        
+        /*MyPlot.SubPlot(2, 2, 3);
+        MatplotHelper.DrawParticles(particles);
+        MatplotHelper.DrawGens(contactGenerators);
+        MatplotHelper.DrawVels(particles);*/
     }
 
     public void Reset()

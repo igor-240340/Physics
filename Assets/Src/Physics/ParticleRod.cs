@@ -24,7 +24,7 @@ public class ParticleRod : ParticleLink, IParticleContactGenerator
                 penetration = CurrentLength() - maxLength,
                 restitution = 0.0f
             };
-            Debug.Log($"Contact detected ({particleA.GetType().Name}, {particleB.GetType().Name}):\n" +
+            Debug.Log($"Contact detected ({contact.GetHashCode()}):\n" +
                       $"Apos:{particleA.pos.ToString("F4")}\n" +
                       $"Bpos:{particleB.pos.ToString("F4")}\n" +
                       $"Avel:{particleA.velocity.ToString("F4")}\n" +
@@ -41,7 +41,7 @@ public class ParticleRod : ParticleLink, IParticleContactGenerator
                 penetration = maxLength - CurrentLength(),
                 restitution = 0.0f
             };
-            Debug.Log($"Contact detected ({particleA.GetType().Name}, {particleB.GetType().Name}):\n" +
+            Debug.Log($"Contact detected ({contact.GetHashCode()}):\n" +
                       $"Apos:{particleA.pos.ToString("F4")}\n" +
                       $"Bpos:{particleB.pos.ToString("F4")}\n" +
                       $"Avel:{particleA.velocity.ToString("F4")}\n" +

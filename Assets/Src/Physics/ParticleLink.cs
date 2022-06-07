@@ -8,7 +8,7 @@
         this.particleB = particleB;
     }
 
-    protected float CurrentLength()
+    public float CurrentLength()
     {
         return (particleA.pos - particleB.pos).magnitude;
     }

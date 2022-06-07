@@ -34,6 +34,7 @@ public class ParticleCable : ParticleLink, IParticleContactGenerator
                       $"Bvel:{particleB.velocity.ToString("F4")}\n" +
                       $"penetration: {contact.penetration}");
         }
+
         Debug.DrawLine(particleB.pos, particleA.pos, Color.green);
 
         return contact is not null;
