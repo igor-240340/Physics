@@ -12,7 +12,7 @@ public class ParticleWorld
     private Vector3 gravity = new(0, -10, 0);
     private float sqrWorldSize = (Vector3.one * 10).sqrMagnitude;
     private ParticleContactResolver contactResolver = new();
-
+    
     public void Add(Particle particle)
     {
         particles.Add(particle);
@@ -20,6 +20,9 @@ public class ParticleWorld
 
     public void Step(float dt)
     {
+        if (particles.Count == 0)
+            return;
+        
         MatplotHelper.ClearPlot();
         MatplotHelper.particles = particles;
 
@@ -58,7 +61,7 @@ public class ParticleWorld
 
         MyPlot.SubPlot(3, 2, 2);
         MatplotHelper.DrawParticles(particles);
-        MatplotHelper.DrawGens(contactGenerators, false);
+        MatplotHelper.DrawGens(contactGenerators, true);
         MatplotHelper.DrawVels(particles);
 
         // todo: what should we do if a particle is linked with another particle
